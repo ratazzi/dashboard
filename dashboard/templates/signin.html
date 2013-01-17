@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta content="True" name="HandheldFriendly" />
+        <meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0; name='viewport'" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" media="screen"  href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen"  href="/static/style.css" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3"></div>
+                <div id="signin-container" class="span6">
+                    {% from 'helpers.html' import render_field %}
+                    <form action="" class="form-horizontal" method="post">
+                        {{ form.csrf_token }}
+                        <div class="control-group{% if form.username.errors%} error{% endif %}">
+                            <label class="control-label" for="username">Username</label>
+                            <div class="controls">
+                                {{ render_field(form.username, placeholder="Username") }}
+                                {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                <span class="help-inline">{{ error }}</span>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="control-group{% if form.password.errors%} error{% endif %}">
+                            <label class="control-label" for="password">Password</label>
+                            <div class="controls">
+                                {{ render_field(form.password, placeholder="Password") }}
+                                {% if form.password.errors %}
+                                {% for error in form.password.errors %}
+                                <span class="help-inline">{{ error }}</span>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <!-- <label class="checkbox"> -->
+                                <!--     <input type="checkbox"> Remember me -->
+                                <!-- </label> -->
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

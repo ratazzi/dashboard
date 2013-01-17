@@ -1,0 +1,38 @@
+{% extends 'settings/base.html' %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/ssh.js"></script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+            <th>SSH Keys</th>
+            <th style="text-align: right;"><!--<a class="btn" href="#">Add SSH key</a>--></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key in keys %}
+            <tr>
+                <td><strong>{{ key.name }}</strong> (<small>{{ key.fingerprint }}</small>)</td>
+                <td style="text-align: right;"><a class="btn btn-danger delete-ssh-key" rel="{{ key.fingerprint }}" href="javascript: void(0);">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="blank-radius">
+    <form action="/settings/ssh/key/add" method="post">
+        <fieldset>
+            <legend>Add an SSH Key</legend>
+            <label>Key</label>
+            <textarea id="key" name="key" rows="5" class="input-xxlarge"></textarea>
+            <br />
+            <!-- <span class="help-block">Example block-level help text here.</span> -->
+            <button type="submit" class="btn btn-success">Add key</button>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
