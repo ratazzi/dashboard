@@ -3,3 +3,4 @@ flask-wtf
 pam
 psutil
 redis
+ssh

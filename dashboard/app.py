@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+from gevent import monkey; monkey.patch_all()
 import os
 import sys
 from flask import Flask
@@ -24,21 +25,11 @@ def before_request():
 
 app.config['SECRET_KEY'] = 'NjE1YmU3ODk0NmQ3NDY5NWJkNDBjMGIwODNlZDQ0MTdiNjE3ZjMzOSAgLQo='
 app.add_url_rule('/', view_func=handlers.MainHandler.as_view('/'))
-app.add_url_rule('/account/signin', view_func=handlers.AccountSigninHandler.as_view('/account/signin'))
-app.add_url_rule('/account/signout', view_func=handlers.AccountSignoutHandler.as_view('/account/signout'))
+app.add_url_rule('/account/signin', view_func=handlers.AccountSigninHandler.as_view('account_signin'))
+app.add_url_rule('/account/signout', view_func=handlers.AccountSignoutHandler.as_view('account_signout'))
 
 from dashboard.settings.handler import app as settings_handler
 app.register_blueprint(settings_handler, url_prefix='/settings')
 
 if __name__ == '__main__':
-    import tornado.wsgi
-    import tornado.httpserver
-    import tornado.ioloop
-    try:
-        container = tornado.wsgi.WSGIContainer(app)
-        server = tornado.httpserver.HTTPServer(container)
-        server.listen(5000, '127.0.0.1')
-        tornado.ioloop.IOLoop.instance().start()
-    except KeyboardInterrupt:
-        tornado.ioloop.IOLoop.instance().stop()
-        print 'exited.'
+    app.run(host='0.0.0.0', debug=True)
